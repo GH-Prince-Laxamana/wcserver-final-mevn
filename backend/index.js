@@ -8,7 +8,28 @@ const studentRoute = require("./routes/student.route");
 const app = express();
 connectDB();
 
-app.use(cors());
+// Define which frontends are allowed to talk to your backend
+const allowedOrigins = [
+  "http://localhost:8080", // Default Vue Vite local port
+  process.env.CLIENT_URL, // Your future Vercel URL (loaded from Render's config)
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps, curl, or postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  }),
+);
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,16 +59,6 @@ app.use((err, req, res, next) => {
 
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   return res.status(statusCode).json({
-    success: false,
-    message: err.message || "Internal Server Error",
-  });
-});
-
-// Global Error Handler
-app.use((err, req, res, next) => {
-  console.error("Server error:", err.message);
-  const status = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(status).json({
     success: false,
     message: err.message || "Internal Server Error",
   });

@@ -48,7 +48,7 @@ export default {
     };
   },
   created() {
-    let apiURL = `http://localhost:4000/api/edit-student/${this.$route.params.id}`;
+    let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api/edit-student/${this.$route.params.id}`;
     axios
       .get(apiURL)
       .then((res) => {
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     handleUpdateForm() {
-      let apiURL = `http://localhost:4000/api/update-student/${this.$route.params.id}`;
+      let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api/update-student/${this.$route.params.id}`;
       axios
         .put(apiURL, this.student)
         .then(() => {

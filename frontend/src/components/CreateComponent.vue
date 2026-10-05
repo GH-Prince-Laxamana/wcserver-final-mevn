@@ -49,7 +49,8 @@ export default {
   },
   methods: {
     handleSubmitForm() {
-      let apiURL = "http://localhost:4000/api/create-student";
+      // Inside a component
+      let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api/create-student`;
       axios
         .post(apiURL, this.student)
         .then(() => {
