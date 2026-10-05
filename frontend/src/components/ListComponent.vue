@@ -45,7 +45,7 @@ export default {
     };
   },
   created() {
-    let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api`; // From localhost to .env
+    let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api` || "localhost:4000/api"; // From localhost to .env
     axios
       .get(apiURL)
       .then((res) => {
@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     deleteStudent(id) {
-      let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api/delete-student/${id}`; // From localhost to .env
+      let apiURL = `${import.meta.env.VITE_API_BASE_URL}/api/delete-student/${id}` || `localhost:4000/api/delete-student/${id}`; // From localhost to .env
       let indexOfArrayItem = this.Students.findIndex((i) => i._id === id);
       if (window.confirm("Do you really want to delete?")) {
         axios
